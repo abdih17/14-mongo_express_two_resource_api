@@ -30,7 +30,7 @@ bankAccountRouter.get('/api/bankAccount/:id', function(req, res, next) {
 bankAccountRouter.put('/api/bankAccount/:id', jsonParser, function(req, res, next) {
   debug('PUT: /api/bankAccount');
 
-  Alert.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  BankAccount.findByIdAndUpdate(req.params.id, req.body, { new: true })
   .then( bankAccount => res.json(bankAccount))
   .catch(next);
 });
@@ -38,7 +38,7 @@ bankAccountRouter.put('/api/bankAccount/:id', jsonParser, function(req, res, nex
 bankAccountRouter.delete('/api/bankAccount/:id', function(req, res, next) {
   debug('DELETE: /api/bankAccount');
 
-  Alert.findByIdAndRemove(req.params.id)
+  BankAccount.findByIdAndRemove(req.params.id)
   .then( () => res.status(204).send())
   .catch( err => next(createError(404, err.message)));
 });
