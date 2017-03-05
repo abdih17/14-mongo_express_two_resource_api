@@ -9,7 +9,7 @@ const BankAccount = require('./bankAccount.js');
 
 const alertSchema = Schema({
   content: { type: String, required: true },
-  timestamp: { type: Date, required: true },
+  timestamp: { type: Date, default: Date.now },
   bankAccounts: [{ type: Schema.Types.ObjectId, ref: 'bankAccount' }]
 });
 

@@ -52,8 +52,33 @@ describe('Bank Account Routes', function() {
           done();
         });
       });
+
+      describe('with an invalid body', () => {
+        it('should return a 400 code', done => {
+          request.post(`${url}/api/alert/${this.tempAlert._id}/bankAccount`)
+          .send({name: 5000})
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(400);
+            done();
+          });
+        });
+      });
+
+      describe('with an invalid alert id', () => {
+        it('should return a 404 code', done => {
+          request.post(`${url}/api/alert/39/bankAccount`)
+          .send(exampleBankAccount)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
+        });
+      });
     });
   });
+
   describe('GET: /api/bankAccount/:id', function() {
     describe('with a valid body', function() {
       before( done => {
@@ -87,6 +112,17 @@ describe('Bank Account Routes', function() {
           expect(res.body.name).to.equal('test custumor name');
           expect(res.body.cardNumber).to.equal(1234567890);
           done();
+        });
+      });
+
+      describe('invalid id', function() {
+        it('should return 404', done => {
+          request.get(`${url}/api/bankAccount/39`)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
         });
       });
     });
@@ -126,6 +162,18 @@ describe('Bank Account Routes', function() {
           done();
         });
       });
+
+      describe('invalid id and body', function() {
+        it('should return a 404', done => {
+          request.put(`${url}/api/bankAccount/`)
+          .send({name: 'hello', cardNumber: '1233'})
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
+        });
+      });
     });
   });
 
@@ -157,6 +205,17 @@ describe('Bank Account Routes', function() {
           expect(res.status).to.equal(204);
           expect(res.body).to.be.empty;
           done();
+        });
+      });
+
+      describe('invalid request', function() {
+        it('should return 404 status', done => {
+          request.delete(`${url}/api/bankAccount/39`)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
         });
       });
     });

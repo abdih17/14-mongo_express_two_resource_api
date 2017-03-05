@@ -46,6 +46,17 @@ describe('Alert Routes', function() {
           done();
         });
       });
+
+      describe('with invalid body', function() {
+        it('should return 400 code', done => {
+          request.post(`${url}/api/alert`)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(400);
+            done();
+          });
+        });
+      });
     });
   });
 
@@ -83,6 +94,17 @@ describe('Alert Routes', function() {
           expect(res.body.bankAccounts.length).to.equal(1);
           expect(res.body.bankAccounts[0].content).to.equal(exampleBankAccount.content);
           done();
+        });
+      });
+
+      describe('invalid request', function() {
+        it('should return a 404 code', done => {
+          request.get(`${url}/api/alert`)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
         });
       });
     });
@@ -123,6 +145,18 @@ describe('Alert Routes', function() {
           done();
         });
       });
+
+      describe('with an invalid request', () => {
+        it('should return a 404 code', done => {
+          request.put(`${url}/api/alert/`)
+          .send({content:'update content'})
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
+        });
+      });
     });
   });
 
@@ -154,6 +188,17 @@ describe('Alert Routes', function() {
           expect(res.status).to.equal(204);
           expect(res.body.content).to.be.empty;
           done();
+        });
+      });
+
+      describe('invalid request', function() {
+        it('should return 404 code', done => {
+          request.delete(`${url}/api/size`)
+          .end((err, res) => {
+            expect(err).to.be.an('error');
+            expect(res.status).to.equal(404);
+            done();
+          });
         });
       });
     });
